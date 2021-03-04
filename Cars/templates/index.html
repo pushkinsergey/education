@@ -1,0 +1,135 @@
+{% extends "layout/basic.html" %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+{% block title %}
+Бортовой журнал - {{ user.username }}
+{% endblock %}
+
+{% block content %}
+<!--
+	https://getbootstrap.com/docs/4.6
+https://bootstrap-4.ru/docs/5.0/components/card/#background-and-color
+-->	
+<div class="container">
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+	<!-- Brand -->
+	<a class="navbar-brand" href="/">Бортовой журнал</a>
+    <!-- Navbar text-->
+    <!--
+    <span class="navbar-text">
+    - пользователь {{user.username}}
+    </span>
+    -->
+    <!-- Links -->
+    <ul class="navbar-nav">
+    	<li class="nav-item">
+    		<a class="nav-link" href="/">Профиль</a>
+        </li>
+        <!-- Dropdown -->
+        <li class="nav-item dropdown">
+        	<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        		Автомобили
+        	</a>
+        	<div class="dropdown-menu">
+        		<a class="dropdown-item" href="">Добавить автомобиль</a>
+                {% if cars %}
+        		<hr class="dropdown-divider">
+        		{% endif %}
+        		{% for car in cars %}
+        	    <a class="dropdown-item" href="">
+        	        {{car.name_car}} / {{car.marka_car}} / {{car.model_car}} / {{car.reg_number}}
+        	    </a>
+        	    {% endfor%}
+            </div>
+        </li>
+    </ul>
+</nav>
+
+
+  <div>
+	<div>{{userservis.nameuser}}</div>  
+  </div>
+  <div>
+  	{% for car in cars %}
+    <span>{{car.name_car}}</span>
+    <span>{{car.reg_number}}</span>
+    <span>{{car.marka_car}}</span>
+    <span>{{car.model_car}}</span>
+    {% endfor%} 
+  </div>
+
+  <table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th>Номер</th>
+        <th>Дата</th>
+        <th width=50%>Описание</th>
+        <th>Спидометр</th>
+        <th></th>
+
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for row in journal %}  
+      <tr>
+        <td>{{row.id}}</td>
+        <td>{{row.date}}</td>
+        <td>{{row.title}}</td>
+        <td>{{row.speedometer}}</td> 
+        <td><button type="button" class="btn btn-outline-dark">...</button></td>         
+      </tr>
+      {% for drow in details %}
+      {% if row.id == drow.event_id %}
+      <tr>
+        <td></td>
+        <td></td>
+        <td>{{drow.datail_id}} {{drow.datail}}</td>
+        <td></td> 
+        <td></td>         
+      </tr>
+      {% endif %}
+      {% empty %}      
+      <tr>
+        <td></td>
+        <td></td>
+        <td>работы не проводились и замены деталей не производились</td>
+        <td></td> 
+        <td></td>         
+      </tr>
+      {% endfor %} 
+      {% endfor %}
+    </tbody>
+  </table>
+</div>  
+  <table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th>Деталь/работа</th>
+        <th>Ресурс</th>
+        <th>дата начала эксплуатации</th>
+        <th>пробег на начала эксплуатации</th>
+        <th>планируемая дата замены</th>
+        <th width=20%></th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in spr %}
+      <tr>
+        <td>{{item.detail}}</td>
+        <td>{{item.resource}}</td>
+        <td>{{item.last_date}}</td>
+        <td>{{item.sm_work}}</td>
+        <td>{{item.planned_date}}</td> 
+        <td>{{item.comment}}</td>         
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+
+{% endblock %}
+

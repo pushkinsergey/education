@@ -1,0 +1,18 @@
+{% extends "layout/basic.html" %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+{% block title %}
+Запись в журнале
+{% endblock %}
+
+{% block content %}
+
+<form method="post">
+	{% csrf_token %}
+	{{ form.as_p }}
+	<input type="submit" vаluе="Записать"/>
+</form>
+{% endblock %}
+

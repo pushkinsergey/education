@@ -1,0 +1,217 @@
+{% extends "layout/basic.html" %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+{% block title %}
+Бортовой журнал - {{ user.username }}
+{% endblock %}
+
+{% block content %}
+<!--
+https://bootstrap-4.ru/docs/5.0/components/card/#background-and-color
+-->	
+<div class="container">
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+	<!-- Brand -->
+	<a class="navbar-brand" href="/">Бортовой журнал</a>
+    <!-- Navbar text-->
+    <!--
+    <span class="navbar-text">
+    - пользователь {{user.username}}
+    </span>
+    -->
+    <!-- Links -->
+    <ul class="navbar-nav">
+    	<li class="nav-item">
+    		<a class="nav-link" href="/">Профиль</a>
+        </li>
+      
+        <!-- Dropdown -->
+        <li class="nav-item dropdown">
+        	<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        		Журнал ремонтов
+        	</a>
+        	<div class="dropdown-menu">
+        		<a class="dropdown-item" href="{% url 'addcar' %}">Добавить автомобиль</a>
+                {% if cars %}
+        		<hr class="dropdown-divider">
+        		{% endif %}
+        		{% for car in cars %}
+        	    <a class="dropdown-item" href="{% url 'viewcar' car.id %}">
+        	        {{car.name_car}} / {{car.marka_car}} / {{car.model_car}} / {{car.reg_number}}
+        	    </a>
+        	    {% endfor%}
+            </div>
+        </li>
+    </ul>
+  </nav>
+
+  <!--<h2>Журнал</h2>
+  <p>{{cardcar.name_car}}</p>
+  <p>{{cardcar.reg_number}}</p>
+  <p>{{cardcar.marka_car}}</p>
+  <p>{{cardcar.model_car}}</p>
+  <p>
+    <span>{{cardcar.name_car}}</span>
+    <span>{{cardcar.reg_number}}</span>
+    <span>{{cardcar.marka_car}}</span>
+    <span>{{cardcar.model_car}}</span>
+  </p>-->
+  <div>
+    <span>{{cardcar.name_car}}</span>
+    <span>{{cardcar.reg_number}}</span>
+    <span>{{cardcar.marka_car}}</span>
+    <span>{{cardcar.model_car}}</span> 
+    <div><a href="{% url 'viewcar' cardcar.id %}" >Работы для {{cardcar.marka_car}}/{{cardcar.model_car}}</a></div>     
+    <div><a href="{% url 'viewcar' cardcar.id %}" >Детали для {{cardcar.marka_car}}/{{cardcar.model_car}}</a></div>     
+  </div>
+  <table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th>Номер</th>
+        <th>Дата</th>
+        <th width=60%>Описание</th>
+        <th>Спидометр</th>
+        <th></th>
+
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for row in journal %}  
+      <tr>
+        <td>{{row.id}}</td>
+        <td>{{row.date}}</td>
+        <td>{{row.title}}</td>
+        <td>{{row.speedometer}}</td> 
+        <td><button type="button" class="btn btn-outline-dark">...</button></td>         
+      </tr>
+      {% for drow in details %}
+      {% if row.id == drow.event_id %}
+      <tr>
+        <td></td>
+        <td></td>
+        <td>{{drow.detail}}</td>
+        <td></td> 
+        <td></td>         
+      </tr>
+      {% endif %}
+      {% empty %}      
+      <tr>
+        <td></td>
+        <td></td>
+        <td>замены деталей не производились</td>
+        <td></td> 
+        <td></td>         
+      </tr>
+      {% endfor %} 
+      {% for wrow in works %} 
+      {% if row.id == wrow.event_id %}
+      <tr>
+        <td></td>
+        <td></td>
+        <td>{{wrow.routine}}</td>
+        <td></td> 
+        <td></td>         
+      </tr>     
+      {% endif %} 
+      {% empty %}     
+      <tr>
+        <td></td>
+        <td></td>
+        <td>регламентные работы не проводились</td>
+        <td></td> 
+        <td></td>         
+      </tr>             
+      {% endfor %} 
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="{% url 'viewcar' cardcar.id %}" >Добавить информацию о новом ремонте</a>
+  <!--
+  <a href="{% url 'viewcar' cardcar.id %}" type="button" class="btn btn-outline-dark">Добавить информацию о новом ремонте</a>  
+  <table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th>Номер</th>
+        <th>Ремонт</th>
+        <th>Деталь/работа</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for row in details %}  
+      <tr>
+        <td>{{row.id}}</td>
+        <td>{{row.event}}</td>
+        <td>{{row.detail}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+
+  <div>
+      {% for row in details %} 
+      <div>{{row.id}}</div>
+      <div>{{row.event}}</div>
+      <div>{{row.event_id}}</div>
+      <div>{{row.detail}}</div>
+      <div>{{row.detail_id}}</div>
+      <hr>
+      {% endfor %}
+  </div>
+    <div>
+      {% for row in works %} 
+      <div>{{row.id}}</div>
+      <div>{{row.event}}</div>
+      <div>{{row.event_id}}</div>
+      <div>{{row.routine}}</div>
+      <div>{{row.routine_id}}</div>
+      <hr>
+      {% endfor %}
+  </div>
+</div>
+
+
+
+
+
+
+        <td><button type="button" class="btn btn-outline-dark">Просмотр</button></td>
+        <td><button type="button" class="btn btn-outline-dark">Редактировать</button></td>
+        <td><button type="button" class="btn btn-outline-dark">Удалить</button></td>
+
+
+        <td><button type="button" class="btn btn-outline-dark">Просмотр</button></td>      
+        <td><button type="button" class="btn btn-outline-dark">Редактировать</button></td>      
+        <td><button type="button" class="btn btn-outline-dark">Удалить</button></td>      
+
+
+<div>
+	<div><h2> Первый блок - пользователь</h2></div>
+	<div>{{userservis.nameuser}}</div>
+</div>
+<div>
+	<div><h2> Второй блок - автомобиль</h2></div>
+	<div>{{cardcar.name_car}}</div>
+	<div>{{cardcar.reg_number}}</div>
+	<div>{{cardcar.marka_car}}</div>
+	<div>{{cardcar.model_car}}</div>
+	<div>{{cardcar.id}}</div>
+</div>
+<div>
+	<div><h2> Третий блок - журнал обслуживания автомобиля</h2></div>
+	{% for row in journal %}
+		<div>{{row.id}}</div>
+		<div>{{row.date}}</div>
+		<div>{{row.title}}</div>
+		<div>{{row.car}}</div>
+		<div>{{row.speedometer}}</div>
+	{% endfor %}
+</div>
+-->
+	
+{% endblock %}
+
