@@ -4,5 +4,5 @@
 Произведенные ремонты
 ![image](https://user-images.githubusercontent.com/20811210/113732821-962a1080-9702-11eb-867e-fb11ae8d1e8e.png)
 
->Контроль ресурса деталей
+Контроль ресурса деталей
 ![image](https://user-images.githubusercontent.com/20811210/113732935-ae9a2b00-9702-11eb-8be1-6dd2869b0c65.png)
