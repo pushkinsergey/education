@@ -1,66 +1,120 @@
-
 <!DOCTYPE html>
 <html>
+
 <head>
-	<meta http-eqip="Content-Type" content="text/html; charset=utf-8">
-	<title>{% block title %}Бортовой журнал {% endblock %}</title>
-	{% load bootstrap4 %}
-	{% bootstrap_css %}
-	{% bootstrap_javascript jquery='full' %}
+    <meta http-eqip="Content-Type" content="text/html; charset=utf-8">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+    <title>{% block title %}Бортовой журнал {% endblock %}</title>
 </head>
+
 <body class="container-fluid">
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-
-    <ul class="navbar-nav">
-
-        <li class="nav-item dropdown">
-        	<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-        		Автомобили
-        	</a>
-        	<div class="dropdown-menu">
-        		<a class="dropdown-item" href="">Добавить автомобиль</a>
-                {% if cars %}
-        		<hr class="dropdown-divider">
-        		{% endif %}
-        		{% for car in cars %}
-        	    <a class="dropdown-item" href="">
-        	        {{car.name_car}} / {{car.marka_car}} / {{car.model_car}} / {{car.reg_number}}
-        	    </a>
-        	    {% endfor%}
-            </div>
-        </li>
-       <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Произведенные ремонты</a>
+    <header class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark flex-column flex-md-row bd-navbar">
+        <a class="navbar-brand mr-0 mr-md-2" href="/">
+          <i class="bi bi-truck"> Бортовой журнал</i>
+        </a>
+    
+        <div class="navbar-nav">
+          <ul class="navbar-nav bd-navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="">Произведенные ремонты</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="">Контроль ресурса деталей</a>
+            </li>
+          </ul>
+        </div>
+        <ul class="navbar-nav ml-md-auto">
+          <li class="nav-item dropdown navbar-right">
+            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+            {% if cars %}
+              {{cars.0.name_car}} / {{cars.0.marka_car}} / {{cars.0.model_car}} / {{cars.0.reg_number}} 
+            {% else %}
+              Нет автомобилей
+            {% endif %}
+            </a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="">Произведенные ремонты</a>
-                <a class="dropdown-item" href="">Контроль ресерса деталей</a>
-
+              <a class="dropdown-item" href="">Добавить автомобиль</a>
+              {% if cars %}
+              <div class="dropdown-divider"></div>
+              {% endif %}
+              {% for car in cars %}
+              <a class="dropdown-item" href="">
+                  {{car.name_car}} / {{car.marka_car}} / {{car.model_car}} / {{car.reg_number}}
+              </a>
+              {% endfor%}
             </div>
-        </li> 
-        <li class="nav-item dropdown navbar-right">
+          </li>
+    
+          <li class="nav-item dropdown navbar-right">
             <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">{{userservis.nameuser}}({{user.email}})</a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="">Редактировать профиль</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="">Марки автомобилей</a>
-                <a class="dropdown-item" href="">Моделей автомобилей</a>
-                <a class="dropdown-item" href="">Детали/регламентные работы</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="">Выйти</a>
+              <a class="dropdown-item" href="">Редактировать профиль</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="">Марки автомобилей</a>
+              <a class="dropdown-item" href="">Моделей автомобилей</a>
+              <a class="dropdown-item" href="">Детали/регламентные работы</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="">Выйти</a>
             </div>
-        </li>  
+          </li>
+        </ul>
+    </header>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 
-    </ul>
-</nav>
-{% block content %}
-{% endblock %}
+        <ul class="navbar-nav">
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                    Автомобили
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="">Добавить автомобиль</a>
+                    {% if cars %}
+                    <hr class="dropdown-divider">
+                    {% endif %}
+                    {% for car in cars %}
+                    <a class="dropdown-item" href="">
+                        {{car.name_car}} / {{car.marka_car}} / {{car.model_car}} / {{car.reg_number}}
+                    </a>
+                    {% endfor%}
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Произведенные
+                    ремонты</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="">Произведенные ремонты</a>
+                    <a class="dropdown-item" href="">Контроль ресерса деталей</a>
+
+                </div>
+            </li>
+            <li class="nav-item dropdown navbar-right">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop"
+                    data-toggle="dropdown">{{userservis.nameuser}}({{user.email}})</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="">Редактировать профиль</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="">Марки автомобилей</a>
+                    <a class="dropdown-item" href="">Моделей автомобилей</a>
+                    <a class="dropdown-item" href="">Детали/регламентные работы</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="">Выйти</a>
+                </div>
+            </li>
+
+        </ul>
+    </nav>
+    {% block content %}
+    {% endblock %}
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>
-
-
-
-
-
-
-
-
